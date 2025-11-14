@@ -1,29 +1,16 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+# Rust/Cargo
+target/
+Cargo.lock
+**/*.rs.bk
 
-# Virtual environments
-venv/
-ENV/
-env/
+# Node
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build artifacts
+dist/
+build/
 
 # IDE
 .vscode/
@@ -38,3 +25,6 @@ Thumbs.db
 
 # Session data (user-specific)
 sessions.json
+
+# Tauri
+src-tauri/target/

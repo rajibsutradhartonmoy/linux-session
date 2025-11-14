@@ -1,234 +1,314 @@
 # Linux Session Saver
 
-A simple and powerful CLI tool to save and restore your Linux application sessions. Never lose your workspace setup again!
+<div align="center">
 
-## Features
+A beautiful, modern GUI application to save and restore your Linux application sessions.
+
+![Tauri](https://img.shields.io/badge/Tauri-1.5-blue)
+![Rust](https://img.shields.io/badge/Rust-1.70+-orange)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+**Never lose your workspace setup again!**
+
+</div>
+
+## ✨ Features
 
 - 💾 **Save Sessions** - Capture all currently running applications in a named session
-- 🚀 **Load Sessions** - Restore all applications from a saved session with one command
-- 📋 **List Sessions** - View all your saved sessions
-- 🗑️ **Delete Sessions** - Remove sessions you no longer need
-- ✏️ **Update Sessions** - Remove specific apps from a saved session
-- 🔍 **Scan Apps** - View currently running applications without saving
+- 🚀 **Load Sessions** - Restore all applications from a saved session with one click
+- 📋 **Manage Sessions** - View, edit, and delete your saved sessions
+- ✏️ **Edit Sessions** - Remove specific apps from saved sessions
+- 🔍 **Scan Apps** - View currently running applications in real-time
+- 🎨 **Beautiful UI** - Modern, dark-themed interface built with Tauri
+- ⚡ **Fast & Lightweight** - Built with Rust and web technologies
 
-## Installation
+## 🖼️ Screenshots
+
+### Sessions View
+View and manage all your saved sessions with a clean, modern interface.
+
+### Current Apps
+Scan and save your currently running applications.
+
+## 🚀 Quick Start
 
 ### Prerequisites
 
-- Python 3.6 or higher
-- `wmctrl` (optional, for better app detection on X11)
+Before building the application, you need:
 
-Install `wmctrl` on Debian/Ubuntu:
-```bash
-sudo apt-get install wmctrl
-```
+1. **Rust** (1.70 or higher)
+   ```bash
+   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+   ```
 
-On Fedora/RHEL:
-```bash
-sudo dnf install wmctrl
-```
+2. **Node.js and npm** (for Tauri CLI)
+   ```bash
+   # Debian/Ubuntu
+   sudo apt install nodejs npm
 
-### Quick Install
+   # Fedora/RHEL
+   sudo dnf install nodejs npm
+   ```
 
-```bash
-chmod +x install.sh
-./install.sh
-```
+3. **System Dependencies** (for Tauri)
+   ```bash
+   # Debian/Ubuntu
+   sudo apt install libwebkit2gtk-4.0-dev \
+       build-essential \
+       curl \
+       wget \
+       file \
+       libssl-dev \
+       libgtk-3-dev \
+       libayatana-appindicator3-dev \
+       librsvg2-dev
 
-This will:
-- Make the script executable
-- Create a symbolic link in `~/.local/bin/session-saver`
-- Add `~/.local/bin` to your PATH if needed
+   # Fedora/RHEL
+   sudo dnf install webkit2gtk4.0-devel \
+       openssl-devel \
+       curl \
+       wget \
+       file \
+       libappindicator-gtk3-devel \
+       librsvg2-devel
 
-### Manual Install
+   # Arch Linux
+   sudo pacman -S webkit2gtk \
+       base-devel \
+       curl \
+       wget \
+       file \
+       openssl \
+       appmenu-gtk-module \
+       gtk3 \
+       libappindicator-gtk3 \
+       librsvg
+   ```
 
-```bash
-# Make scripts executable
-chmod +x session_saver.py session_manager.py
+4. **wmctrl** (optional, for better app detection)
+   ```bash
+   # Debian/Ubuntu
+   sudo apt install wmctrl
 
-# Create symlink (optional, for easy access)
-mkdir -p ~/.local/bin
-ln -sf "$(pwd)/session_saver.py" ~/.local/bin/session-saver
+   # Fedora/RHEL
+   sudo dnf install wmctrl
 
-# Add to PATH if not already there
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-```
+   # Arch Linux
+   sudo pacman -S wmctrl
+   ```
 
-## Usage
+### Building from Source
 
-### Save Current Session
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd linux-session-saver
+   ```
 
-Save all currently running applications:
+2. **Install Tauri CLI**
+   ```bash
+   npm install
+   ```
 
-```bash
-./session_saver.py save my-work-session
-```
+3. **Build the application**
+   ```bash
+   npm run tauri build
+   ```
 
-Or if installed:
-```bash
-session-saver save my-work-session
-```
+   The compiled application will be in `src-tauri/target/release/`
 
-### Load a Session
+4. **Install the application**
+   ```bash
+   # The .deb or .AppImage will be in src-tauri/target/release/bundle/
+   # For Debian/Ubuntu:
+   sudo dpkg -i src-tauri/target/release/bundle/deb/*.deb
 
-Restore all applications from a saved session:
+   # Or use the AppImage:
+   chmod +x src-tauri/target/release/bundle/appimage/*.AppImage
+   ./src-tauri/target/release/bundle/appimage/*.AppImage
+   ```
 
-```bash
-./session_saver.py load my-work-session
-```
+### Development Mode
 
-### List All Sessions
-
-View all your saved sessions:
-
-```bash
-./session_saver.py list
-```
-
-Output:
-```
-Saved sessions (2):
-
-  • my-work-session
-    Created: 2025-11-14
-    Apps: 5
-
-  • gaming-session
-    Created: 2025-11-13
-    Apps: 3
-```
-
-### Show Session Details
-
-View detailed information about a specific session:
-
-```bash
-./session_saver.py show my-work-session
-```
-
-Output:
-```
-Session: my-work-session
-Created: 2025-11-14T10:30:45.123456
-Applications (3):
-  [0] Firefox
-      Command: /usr/lib/firefox/firefox
-  [1] Visual Studio Code
-      Command: /usr/share/code/code
-  [2] Terminal
-      Command: gnome-terminal
-```
-
-### Delete a Session
-
-Remove a session you no longer need:
+To run the application in development mode:
 
 ```bash
-./session_saver.py delete my-work-session
+npm run tauri dev
 ```
 
-### Update a Session
+## 📖 Usage
 
-Remove specific apps from a session using their indices (shown in `show` command):
+### 1. Scan Current Applications
 
-```bash
-# Remove apps at indices 0 and 2
-./session_saver.py update my-work-session 0 2
+1. Open the application
+2. Go to the **"Current Apps"** tab
+3. Click the **"Scan"** button
+4. You'll see all your currently running applications
+
+### 2. Save a Session
+
+1. After scanning apps, enter a name for your session
+2. Click **"Save Session"**
+3. Your session is now saved!
+
+### 3. Load a Session
+
+1. Go to the **"Sessions"** tab
+2. Find the session you want to restore
+3. Click the **"Load"** button
+4. All applications from that session will launch
+
+### 4. Edit a Session
+
+1. In the **"Sessions"** tab, click **"Edit"** on any session
+2. Select the apps you want to remove (checkboxes appear)
+3. Click **"Remove Selected"**
+4. The session is updated without those apps
+
+### 5. Delete a Session
+
+1. In the **"Sessions"** tab, click **"Delete"** on any session
+2. Confirm the deletion
+3. The session is permanently removed
+
+## 🏗️ Architecture
+
+This application is built with:
+
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Rust with Tauri framework
+- **UI Framework**: Custom CSS with modern design
+- **Data Storage**: JSON files in `~/.config/session-saver/`
+
+### Project Structure
+
+```
+linux-session-saver/
+├── ui/                      # Frontend files
+│   ├── index.html          # Main HTML
+│   ├── styles.css          # Styling
+│   └── app.js              # JavaScript logic
+├── src-tauri/              # Rust backend
+│   ├── src/
+│   │   └── main.rs         # Main Rust code
+│   ├── Cargo.toml          # Rust dependencies
+│   ├── tauri.conf.json     # Tauri configuration
+│   └── build.rs            # Build script
+├── package.json            # Node.js dependencies
+└── README.md              # This file
 ```
 
-### Scan Current Apps
+## 💾 Data Storage
 
-View currently running applications without saving:
-
-```bash
-./session_saver.py scan
+Sessions are stored in JSON format at:
+```
+~/.config/session-saver/sessions.json
 ```
 
-## How It Works
-
-1. **Detection**: The app uses `wmctrl` to detect running GUI applications on X11 systems. If `wmctrl` is not available, it falls back to parsing process information.
-
-2. **Storage**: Sessions are stored in JSON format at `~/.config/session-saver/sessions.json`
-
-3. **Launching**: When loading a session, applications are launched using their original command-line arguments.
-
-## Examples
-
-### Daily Workflow
-
-```bash
-# Monday morning - start your work apps
-session-saver load work
-
-# End of day - save your current setup
-session-saver save work-in-progress
-
-# Tuesday morning - continue where you left off
-session-saver load work-in-progress
-
-# Clean up old sessions
-session-saver list
-session-saver delete work-in-progress
+The file structure is:
+```json
+{
+  "sessions": {
+    "session-name": {
+      "created": "2025-11-14T10:30:00Z",
+      "apps": [
+        {
+          "name": "Firefox",
+          "command": "/usr/lib/firefox/firefox",
+          "pid": "1234"
+        }
+      ]
+    }
+  }
+}
 ```
 
-### Multiple Workspaces
+## 🔧 How It Works
 
-```bash
-# Create different sessions for different tasks
-session-saver save development
-session-saver save writing
-session-saver save gaming
-session-saver save browsing
+1. **App Detection**:
+   - Uses `wmctrl` to detect running GUI applications on X11
+   - Falls back to `ps` command if `wmctrl` is not available
+   - Reads `/proc/{pid}/cmdline` to get full command details
 
-# Switch between them easily
-session-saver load development
-session-saver load gaming
-```
+2. **Session Storage**:
+   - Sessions stored as JSON in user's config directory
+   - Each session contains app names, commands, and metadata
 
-## Limitations
+3. **App Launching**:
+   - Uses the original command-line arguments to relaunch apps
+   - Spawns processes in the background
 
-- **Wayland**: Works best on X11. On Wayland, app detection may be limited.
-- **State**: The tool saves which applications to launch but doesn't save their internal state (open files, scroll positions, etc.)
-- **Window Position**: Window positions and sizes are not saved (yet)
+## ⚠️ Limitations
+
+- **Wayland**: Works best on X11. On Wayland, app detection may be limited
+- **State**: Saves which apps to launch, but not their internal state (open files, window positions, etc.)
+- **Window Management**: Window positions and sizes are not saved
 - **CLI Apps**: Only GUI applications are reliably detected
+- **Some Apps**: Apps that require specific environment variables or working directories may not launch correctly
 
-## Troubleshooting
+## 🐛 Troubleshooting
 
 ### No apps detected
-
-- Make sure `wmctrl` is installed: `sudo apt-get install wmctrl`
-- Try the `scan` command to see what apps are being detected
+- Make sure `wmctrl` is installed: `sudo apt install wmctrl`
+- Check that you're running X11 (not Wayland)
 - Some applications may not be visible to process scanning
 
-### App won't launch
+### App won't launch from session
+- Verify the application is still installed
+- Check that the command path is still valid
+- Some apps may require specific environment setup
 
-- Check that the application is still installed
-- Use `show` command to verify the command is correct
-- Some apps may require specific environment variables or working directories
+### Build errors
+- Ensure all system dependencies are installed
+- Update Rust: `rustup update`
+- Clear build cache: `cargo clean` in `src-tauri/` directory
 
 ### Permission denied
+- Make sure you have write permissions to `~/.config/session-saver/`
+- Check file permissions on the sessions.json file
 
-- Make sure the script is executable: `chmod +x session_saver.py`
-- Check that `~/.local/bin` is in your PATH
-
-## Configuration
-
-Sessions are stored at: `~/.config/session-saver/sessions.json`
-
-You can manually edit this file if needed, but be careful with the JSON syntax.
-
-## Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Feel free to:
+
 - Report bugs
 - Suggest new features
 - Submit pull requests
+- Improve documentation
 
-## License
+## 📝 Todo / Future Features
+
+- [ ] Save window positions and sizes
+- [ ] Support for Wayland
+- [ ] Auto-save sessions on logout
+- [ ] Session groups/categories
+- [ ] Import/export sessions
+- [ ] Scheduled session loading
+- [ ] System tray integration
+- [ ] Workspace switching support
+
+## 📄 License
 
 MIT License - feel free to use and modify as needed.
 
-## Author
+## 🙏 Acknowledgments
 
-Created for easy session management on Linux systems.
+- Built with [Tauri](https://tauri.app/) - A framework for building desktop applications
+- Uses `wmctrl` for window management on Linux
+- Inspired by session management tools on other platforms
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Troubleshooting](#-troubleshooting) section
+2. Open an issue on GitHub
+3. Consult the [Tauri documentation](https://tauri.app/v1/guides/)
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the Linux community**
+
+</div>

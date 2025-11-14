@@ -1,0 +1,22 @@
+{
+  "name": "linux-session-saver",
+  "version": "1.0.0",
+  "description": "A GUI application to save and restore Linux application sessions",
+  "main": "index.js",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build"
+  },
+  "keywords": [
+    "linux",
+    "session",
+    "saver",
+    "desktop"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.0"
+  }
+}

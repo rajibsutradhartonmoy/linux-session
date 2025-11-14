@@ -1,7 +1,0 @@
-# Linux Session Saver Requirements
-# No external Python packages required - uses only standard library
-
-# Optional system dependencies (install via package manager):
-# - wmctrl: For better application detection on X11
-#   Debian/Ubuntu: sudo apt-get install wmctrl
-#   Fedora/RHEL: sudo dnf install wmctrl
